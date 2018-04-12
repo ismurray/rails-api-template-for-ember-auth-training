@@ -1,5 +1,7 @@
-class LootsController < ApplicationController
-  before_action :set_loot, only: [:show, :update, :destroy]
+# frozen_string_literal: true
+
+class LootsController < OpenReadController
+  before_action :set_loot, only: %i[update destroy]
 
   # GET /loots
   def index
@@ -10,12 +12,12 @@ class LootsController < ApplicationController
 
   # GET /loots/1
   def show
-    render json: @loot
+    render json: Loot.find(params[:id])
   end
 
   # POST /loots
   def create
-    @loot = Loot.new(loot_params)
+    @loot = current_user.loots.build(loot_params)
 
     if @loot.save
       render json: @loot, status: :created
@@ -41,7 +43,7 @@ class LootsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_loot
-      @loot = Loot.find(params[:id])
+      @loot = current_user.loots.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

@@ -1,5 +1,5 @@
 #!/bin/bash
-ID=2
+ID=8
 
 curl "http://localhost:4741/loots/${ID}" \
   --include \
